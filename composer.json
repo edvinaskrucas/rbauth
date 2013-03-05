@@ -1,0 +1,21 @@
+{
+    "name": "edvinaskrucas/rbauth",
+    "description": "",
+    "authors": [
+        {
+            "name": "Edvinas Kručas",
+            "email": "edv.krucas@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "psr-0": {
+            "EdvinasKrucas\\RBAuth": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

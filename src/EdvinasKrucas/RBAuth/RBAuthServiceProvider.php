@@ -1,17 +1,10 @@
 <?php namespace EdvinasKrucas\RBAuth;
 
-use Illuminate\Support\ServiceProvider;
-use EdvinasKrucas\RBAuth\RBAuth;
+use Illuminate\Auth\AuthServiceProvider;
+use EdvinasKrucas\RBAuth\RBAuthManager;
 
-class RBAuthServiceProvider extends ServiceProvider
+class RBAuthServiceProvider extends AuthServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
     /**
      * Bootstrap the application events.
      *
@@ -19,6 +12,8 @@ class RBAuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
         $this->package('edvinaskrucas/rbauth');
     }
 
@@ -29,19 +24,11 @@ class RBAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['rbauth'] = $this->app->share(function($app)
+        $this->app['auth'] = $this->app->share(function($app)
         {
-            return new RBAuth();
-        });
-    }
+            $app['auth.loaded'] = true;
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return array();
+            return new RBAuthManager($app);
+        });
     }
 }

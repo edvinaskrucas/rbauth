@@ -1,6 +1,7 @@
 <?php namespace EdvinasKrucas\RBAuth;
 
 use Illuminate\Auth\AuthManager;
+use Illuminate\Auth\EloquentUserProvider;
 
 class RBAuthManager extends AuthManager
 {
@@ -13,7 +14,9 @@ class RBAuthManager extends AuthManager
     {
         $provider = $this->createRbauthProvider();
 
-        return new RBAuth($provider, $this->app['session']);
+        $roleProvider = $this->createRbauthRoleProvider();
+
+        return new RBAuth($provider, $this->app['session'], $roleProvider);
     }
 
     /**
@@ -23,6 +26,20 @@ class RBAuthManager extends AuthManager
      */
     protected function createRbauthProvider()
     {
-        return $this->createEloquentProvider();
+        $model = $this->app['config']->get('rbauth::user_provider');
+
+        return new EloquentUserProvider($this->app['hash'], $model);
+    }
+
+    /**
+     * Create an instance of Role provider.
+     *
+     * @return EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface
+     */
+    protected function createRbauthRoleProvider()
+    {
+        $model = $this->app['config']->get('rbauth::role_provider');
+
+        return new $model();
     }
 }

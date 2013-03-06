@@ -30,5 +30,7 @@ class RBAuthServiceProvider extends AuthServiceProvider
 
             return new RBAuthManager($app);
         });
+
+        $this->app['config']->package('edvinaskrucas/rbauth', __DIR__.'/../config');
     }
 }

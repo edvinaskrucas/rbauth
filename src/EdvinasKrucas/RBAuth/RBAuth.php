@@ -15,6 +15,13 @@ class RBAuth extends Guard
     protected $roleProvider;
 
     /**
+     * Name of default role.
+     *
+     * @var string
+     */
+    protected $defaultRoleName;
+
+    /**
      * Create new RBAuth instance.
      *
      * @param UserProviderInterface $provider
@@ -23,10 +30,12 @@ class RBAuth extends Guard
      */
     public function __construct(UserProviderInterface $provider,
                                 SessionStore $session,
-                                RoleProviderInterface $roleProvider)
+                                RoleProviderInterface $roleProvider,
+                                $defaultRoleName)
     {
         parent::__construct($provider, $session);
         $this->roleProvider = $roleProvider;
+        $this->defaultRoleName = $defaultRoleName;
     }
 
     /**
@@ -44,7 +53,7 @@ class RBAuth extends Guard
         }
         else
         {
-            $role = $this->roleProvider->getByName($this->app['config']->get('rbauth::default_role'));
+            $role = $this->roleProvider->getByName($this->defaultRoleName);
 
             if($role)
             {

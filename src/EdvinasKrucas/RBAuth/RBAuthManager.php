@@ -16,7 +16,12 @@ class RBAuthManager extends AuthManager
 
         $roleProvider = $this->createRbauthRoleProvider();
 
-        return new RBAuth($provider, $this->app['session'], $roleProvider);
+        return new RBAuth(
+            $provider,
+            $this->app['session'],
+            $roleProvider,
+            $this->app['config']->get('rbauth::default_role')
+        );
     }
 
     /**

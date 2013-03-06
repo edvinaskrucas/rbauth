@@ -26,9 +26,7 @@ class RBAuthManager extends AuthManager
      */
     protected function createRbauthProvider()
     {
-        $model = $this->app['config']->get('rbauth::user_provider');
-
-        return new EloquentUserProvider($this->app['hash'], $model);
+        return parent::createEloquentProvider();
     }
 
     /**

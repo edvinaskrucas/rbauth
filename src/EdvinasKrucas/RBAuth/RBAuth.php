@@ -27,6 +27,7 @@ class RBAuth extends Guard
      * @param UserProviderInterface $provider
      * @param SessionStore $session
      * @param Contracts\RoleProviderInterface $roleProvider
+     * @param $defaultRoleName
      */
     public function __construct(UserProviderInterface $provider,
                                 SessionStore $session,

@@ -1,6 +1,8 @@
 <?php namespace EdvinasKrucas\RBAuth;
 
 use Illuminate\Auth\Guard;
+use Illuminate\Auth\UserProviderInterface;
+use Illuminate\Session\Store as SessionStore;
 use EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface;
 
 class RBAuth extends Guard

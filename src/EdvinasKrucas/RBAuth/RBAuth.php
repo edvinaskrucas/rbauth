@@ -22,21 +22,29 @@ class RBAuth extends Guard
     protected $defaultRoleName;
 
     /**
-     * Create new RBAuth instance.
+     * Name of super permission (root access).
      *
-     * @param UserProviderInterface $provider
-     * @param SessionStore $session
+     * @var string
+     */
+    protected $superPermission;
+
+    /**
+     * @param \Illuminate\Auth\UserProviderInterface $provider
+     * @param \Illuminate\Session\Store $session
      * @param Contracts\RoleProviderInterface $roleProvider
      * @param $defaultRoleName
+     * @param $superPermission
      */
     public function __construct(UserProviderInterface $provider,
                                 SessionStore $session,
                                 RoleProviderInterface $roleProvider,
-                                $defaultRoleName)
+                                $defaultRoleName,
+                                $superPermission)
     {
         parent::__construct($provider, $session);
         $this->roleProvider = $roleProvider;
         $this->defaultRoleName = $defaultRoleName;
+        $this->superPermission = $superPermission;
     }
 
     /**
@@ -50,6 +58,10 @@ class RBAuth extends Guard
     {
         if(!is_null($this->user()))
         {
+            if($this->user()->can($this->superPermission))
+            {
+                return true;
+            }
             return $this->user()->can($identifier);
         }
         else

@@ -97,8 +97,8 @@ class RBAuth extends Guard
      * @param bool $remember
      * @param bool $login
      * @return bool
-     * @throws \EdvinasKrucas\Exception\UserPasswordIncorrectException
-     * @throws \EdvinasKrucas\Exception\UserNotFoundException
+     * @throws \EdvinasKrucas\RBAuth\Exception\UserPasswordIncorrectException
+     * @throws \EdvinasKrucas\RBAuth\Exception\UserNotFoundException
      */
     public function attempt(array $credentials = array(), $remember = false, $login = true)
     {

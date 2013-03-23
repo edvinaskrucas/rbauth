@@ -1,5 +1,7 @@
 <?php namespace EdvinasKrucas\RBAuth;
 
+use EdvinasKrucas\Exception\UserNotFoundException;
+use EdvinasKrucas\Exception\UserPasswordIncorrectException;
 use Illuminate\Auth\Guard;
 use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Session\Store as SessionStore;
@@ -85,6 +87,42 @@ class RBAuth extends Guard
                     return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array $credentials
+     * @param bool $remember
+     * @param bool $login
+     * @return bool
+     * @throws \EdvinasKrucas\Exception\UserPasswordIncorrectException
+     * @throws \EdvinasKrucas\Exception\UserNotFoundException
+     */
+    public function attempt(array $credentials = array(), $remember = false, $login = true)
+    {
+        $user = $this->provider->retrieveByCredentials($credentials);
+
+        // If an implementation of UserInterface was returned, we'll ask the provider
+        // to validate the user against the given credentials, and if they are in
+        // fact valid we'll log the users into the application and return true.
+        if ($user instanceof UserInterface)
+        {
+            if ($this->provider->validateCredentials($user, $credentials))
+            {
+                if ($login) $this->login($user, $remember);
+
+                return true;
+            }
+            else
+            {
+                throw new UserPasswordIncorrectException();
+            }
+        }
+        else
+        {
+            throw new UserNotFoundException();
         }
 
         return false;

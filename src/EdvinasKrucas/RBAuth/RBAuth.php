@@ -1,7 +1,7 @@
 <?php namespace EdvinasKrucas\RBAuth;
 
-use EdvinasKrucas\Exception\UserNotFoundException;
-use EdvinasKrucas\Exception\UserPasswordIncorrectException;
+use EdvinasKrucas\RBAuth\Exception\UserNotFoundException;
+use EdvinasKrucas\RBAuth\Exception\UserPasswordIncorrectException;
 use Illuminate\Auth\Guard;
 use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Session\Store as SessionStore;

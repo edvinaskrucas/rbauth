@@ -7,6 +7,7 @@ use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Session\Store as SessionStore;
 use EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface;
 use Illuminate\Config\Repository;
+use EdvinasKrucas\RBAuth\Contracts\UserInterface;
 
 class RBAuth extends Guard
 {

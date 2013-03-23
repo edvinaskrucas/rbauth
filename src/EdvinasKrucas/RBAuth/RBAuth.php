@@ -4,6 +4,7 @@ use Illuminate\Auth\Guard;
 use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Session\Store as SessionStore;
 use EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface;
+use Illuminate\Config\Repository;
 
 class RBAuth extends Guard
 {
@@ -15,36 +16,26 @@ class RBAuth extends Guard
     protected $roleProvider;
 
     /**
-     * Name of default role.
+     * Config repository instance.
      *
-     * @var string
+     * @var \Illuminate\Config\Repository
      */
-    protected $defaultRoleName;
+    protected $config;
 
     /**
-     * Name of super permission (root access).
-     *
-     * @var string
-     */
-    protected $superPermission;
-
-    /**
-     * @param \Illuminate\Auth\UserProviderInterface $provider
-     * @param \Illuminate\Session\Store $session
-     * @param Contracts\RoleProviderInterface $roleProvider
-     * @param $defaultRoleName
-     * @param $superPermission
+     * @param UserProviderInterface $provider
+     * @param SessionStore $session
+     * @param RoleProviderInterface $roleProvider
+     * @param Repository $config
      */
     public function __construct(UserProviderInterface $provider,
                                 SessionStore $session,
                                 RoleProviderInterface $roleProvider,
-                                $defaultRoleName,
-                                $superPermission)
+                                Repository $config)
     {
         parent::__construct($provider, $session);
         $this->roleProvider = $roleProvider;
-        $this->defaultRoleName = $defaultRoleName;
-        $this->superPermission = $superPermission;
+        $this->config = $config;
     }
 
     /**
@@ -58,7 +49,7 @@ class RBAuth extends Guard
     {
         if(!is_null($this->user()))
         {
-            if($this->user()->can($this->superPermission))
+            if($this->user()->can($this->config->get('rbauth::super_permission')))
             {
                 return true;
             }
@@ -66,7 +57,7 @@ class RBAuth extends Guard
         }
         else
         {
-            $role = $this->roleProvider->getByName($this->defaultRoleName);
+            $role = $this->roleProvider->getByName($this->config->get('rbauth::default_role'));
 
             if($role)
             {

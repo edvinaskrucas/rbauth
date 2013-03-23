@@ -20,8 +20,7 @@ class RBAuthManager extends AuthManager
             $provider,
             $this->app['session'],
             $roleProvider,
-            $this->app['config']->get('rbauth::default_role'),
-            $this->app['config']->get('rbauth::super_permission')
+            $this->app['config']
         );
     }
 

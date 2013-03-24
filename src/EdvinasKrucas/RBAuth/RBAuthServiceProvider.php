@@ -57,7 +57,7 @@ class RBAuthServiceProvider extends ServiceProvider
             return new RBAuth(
                 new EloquentUserProvider(
                     $app['hash'],
-                    $app['config']->get('rbauth:user_model')
+                    $app['config']->get('rbauth::user_model')
                 ),
                 $app['session'],
                 $roleProvider,

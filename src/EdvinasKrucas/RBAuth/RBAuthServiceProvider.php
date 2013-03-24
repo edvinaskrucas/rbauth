@@ -1,9 +1,9 @@
 <?php namespace EdvinasKrucas\RBAuth;
 
-use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Support\ServiceProvider;
 
-class RBAuthServiceProvider extends AuthServiceProvider
+class RBAuthServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.

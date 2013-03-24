@@ -1,7 +1,7 @@
 <?php namespace EdvinasKrucas\RBAuth;
 
 use Illuminate\Auth\AuthServiceProvider;
-use EdvinasKrucas\RBAuth\RBAuthManager;
+use Illuminate\Auth\EloquentUserProvider;
 
 class RBAuthServiceProvider extends AuthServiceProvider
 {
@@ -24,11 +24,19 @@ class RBAuthServiceProvider extends AuthServiceProvider
      */
     public function register()
     {
-        $this->app['auth'] = $this->app->share(function($app)
-        {
-            $app['auth.loaded'] = true;
+        $app = $this->app;
 
-            return new RBAuthManager($app);
+        $this->app['auth']->extend('rbauth', function() use ($app)
+        {
+            return new RBAuth(
+                new EloquentUserProvider(
+                    $app['hash'],
+                    $app['config']->get('rbauth:user_model')
+                ),
+                $app['session'],
+                new $app['config']->get('rbauth::role_provider'),
+                $app['config']
+            );
         });
 
         $this->app['config']->package('edvinaskrucas/rbauth', __DIR__.'/../config');

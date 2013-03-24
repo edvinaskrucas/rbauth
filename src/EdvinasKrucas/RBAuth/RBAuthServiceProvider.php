@@ -15,6 +15,8 @@ class RBAuthServiceProvider extends ServiceProvider
         parent::boot();
 
         $this->package('edvinaskrucas/rbauth');
+
+        $this->extendAuth();
     }
 
     /**
@@ -24,9 +26,33 @@ class RBAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app['config']->package('edvinaskrucas/rbauth', __DIR__.'/../config');
+    }
+
+    /**
+     * Creates new instance of defined role provider.
+     *
+     * @return \EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface
+     */
+    protected function createRoleProvider()
+    {
+        $class = $this->app['config']->get('rbauth::role_provider');
+
+        return new $class;
+    }
+
+    /**
+     * Extends auth driver with RBAuth
+     *
+     * @return void
+     */
+    protected function extendAuth()
+    {
         $app = $this->app;
 
-        $this->app['auth']->extend('rbauth', function() use ($app)
+        $roleProvider = $this->createRoleProvider();
+
+        $this->app['auth']->extend('rbauth', function() use ($app, $roleProvider)
         {
             return new RBAuth(
                 new EloquentUserProvider(
@@ -34,11 +60,9 @@ class RBAuthServiceProvider extends ServiceProvider
                     $app['config']->get('rbauth:user_model')
                 ),
                 $app['session'],
-                new $app['config']->get('rbauth::role_provider'),
+                $roleProvider,
                 $app['config']
             );
         });
-
-        $this->app['config']->package('edvinaskrucas/rbauth', __DIR__.'/../config');
     }
 }

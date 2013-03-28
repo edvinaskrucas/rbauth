@@ -20,7 +20,7 @@ return array(
      | Default role provider implementation.
      |
      */
-    'role_provider'         => 'Role',
+    'role_provider'         => 'EdvinasKrucas\RBAuth\Implementations\Role',
 
     /*
      |--------------------------------------------------------------------------

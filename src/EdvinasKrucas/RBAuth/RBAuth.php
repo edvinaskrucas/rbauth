@@ -81,13 +81,7 @@ class RBAuth extends Guard
     {
         if(!is_null($this->user()))
         {
-            foreach($this->user()->getRoles() as $role)
-            {
-                if($role->getRoleName() == $roleName)
-                {
-                    return true;
-                }
-            }
+            return $this->user()->is($roleName);
         }
 
         return false;

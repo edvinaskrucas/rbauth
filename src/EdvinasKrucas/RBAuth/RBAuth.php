@@ -14,7 +14,7 @@ class RBAuth extends Guard
     /**
      * Role provider implementation.
      *
-     * @var Contracts\RoleProviderInterface
+     * @var \EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface
      */
     protected $roleProvider;
 

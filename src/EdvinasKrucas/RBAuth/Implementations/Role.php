@@ -39,7 +39,7 @@ class Role extends Model implements RoleInterface, RoleProviderInterface
      * Returns role by its name.
      *
      * @param $roleName
-     * @return EdvinasKrucas\RBAuth\Contracts\RoleInterface
+     * @return \EdvinasKrucas\RBAuth\Contracts\RoleInterface
      */
     public function getByName($roleName)
     {

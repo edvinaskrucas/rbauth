@@ -53,7 +53,7 @@ $input = Input::all();
 try
 {
     Auth::attempt(array('email' => $input['email'], 'password' => $input['password']), isset($input['reminder']));
-    return Redirect::bac(); // All is ok
+    return Redirect::back(); // All is ok
 }
 catch(UserNotFoundException $e)
 {

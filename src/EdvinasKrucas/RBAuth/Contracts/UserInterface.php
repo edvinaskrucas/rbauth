@@ -13,6 +13,14 @@ interface UserInterface extends AuthUserInterface
     public function can($identifier);
 
     /**
+     * Determines if a user is assigned to a given role.
+     *
+     * @param $roleName
+     * @return bool
+     */
+    public function is($roleName);
+
+    /**
      * Returns user roles.
      *
      * @return array

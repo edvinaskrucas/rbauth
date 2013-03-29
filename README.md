@@ -27,7 +27,7 @@ Add following lines to ```app/config/app.php```
 ServiceProvider array
 
 ```php
-'EdvinasKrucas\RBAuth\RBAuthServiceProvider'
+'Krucas\RBAuth\RBAuthServiceProvider'
 ```
 
 Change auth driver to ```rbauth``` in ```app/config/auth.php```
@@ -85,5 +85,5 @@ Auth::can('view.profile');
 
 This auth extension throws two exceptions when you are trying to login:
 
-```\EdvinasKrucas\RBAuth\UserNotFoundException``` - thrown when you are trying to login with non existing user.
-```\EdvinasKrucas\RBAuth\PasswordIncorrectException``` - thrown when password for user is incorrect.
+```\Krucas\RBAuth\UserNotFoundException``` - thrown when you are trying to login with non existing user.
+```\Krucas\RBAuth\PasswordIncorrectException``` - thrown when password for user is incorrect.

@@ -81,6 +81,28 @@ Returns boolean ```true``` (if can) or ```false``` (if can not)
 Auth::can('view.profile');
 ```
 
+### Extending Auth with your custom checks
+
+Sometimes you need to check few rules on a certain object, so you can easily do that by adding your custom checks.
+This example shows how to check compound permissions.
+For example you have two permissions for editing a trip: ```trips.edit.all``` and ```trips.edit.own```, you can use double check on a certain trip by using simple calls, or you just can use this example below.
+
+```php
+Auth::addCheck('editTrip', function($trip)
+{
+    if(Auth::can('trips.edit.all'))
+    {
+        return true;
+    }
+    elseif(Auth::can('trips.edit.own') && $trip->user_id == Auth::user()->id)
+    {
+        return true;
+    }
+
+    return false;
+});
+```
+
 ### Exceptions
 
 This auth extension throws two exceptions when you are trying to login:

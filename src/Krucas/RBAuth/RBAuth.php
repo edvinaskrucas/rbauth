@@ -8,6 +8,7 @@ use Illuminate\Session\Store as SessionStore;
 use Krucas\RBAuth\Contracts\RoleProviderInterface;
 use Illuminate\Config\Repository;
 use Krucas\RBAuth\Contracts\UserInterface;
+use Closure;
 
 class RBAuth extends Guard
 {
@@ -24,6 +25,13 @@ class RBAuth extends Guard
      * @var \Illuminate\Config\Repository
      */
     protected $config;
+
+    /**
+     * User registered custom checks.
+     *
+     * @var array
+     */
+    protected $customChecks = array();
 
     /**
      * @param UserProviderInterface $provider
@@ -121,5 +129,44 @@ class RBAuth extends Guard
         }
 
         return false;
+    }
+
+    /**
+     * Adds custom checker.
+     *
+     * @param $alias
+     * @param callable $callback
+     */
+    public function addCheck($alias, Closure $callback)
+    {
+        $this->customChecks['can'.ucfirst($alias)] = $callback;
+    }
+
+    /**
+     * Tries to call custom check.
+     *
+     * @param $name
+     * @param $args
+     * @return mixed
+     */
+    public function __call($name, $args)
+    {
+        if(strlen($name) > 3 && substr($name, 0, 3) == 'can')
+        {
+            if(isset($this->customChecks[$name]))
+            {
+                switch(count($args))
+                {
+                    case 0: return call_user_func($this->customChecks[$name]);
+                    case 1: return call_user_func($this->customChecks[$name], $args[0]);
+                    case 2: return call_user_func($this->customChecks[$name], $args[0], $args[1]);
+                    case 3: return call_user_func($this->customChecks[$name], $args[0], $args[1], $args[2]);
+                    case 4: return call_user_func($this->customChecks[$name], $args[0], $args[1], $args[2], $args[3]);
+                    case 5: return call_user_func($this->customChecks[$name], $args[0], $args[1], $args[2], $args[3], $args[4]);
+                }
+
+                return call_user_func($this->customChecks[$name], $args);
+            }
+        }
     }
 }

@@ -1,20 +1,20 @@
-<?php namespace EdvinasKrucas\RBAuth;
+<?php namespace Krucas\RBAuth;
 
-use EdvinasKrucas\RBAuth\Exception\UserNotFoundException;
-use EdvinasKrucas\RBAuth\Exception\UserPasswordIncorrectException;
+use Krucas\RBAuth\Exception\UserNotFoundException;
+use Krucas\RBAuth\Exception\UserPasswordIncorrectException;
 use Illuminate\Auth\Guard;
 use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Session\Store as SessionStore;
-use EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface;
+use Krucas\RBAuth\Contracts\RoleProviderInterface;
 use Illuminate\Config\Repository;
-use EdvinasKrucas\RBAuth\Contracts\UserInterface;
+use Krucas\RBAuth\Contracts\UserInterface;
 
 class RBAuth extends Guard
 {
     /**
      * Role provider implementation.
      *
-     * @var \EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface
+     * @var \Krucas\RBAuth\Contracts\RoleProviderInterface
      */
     protected $roleProvider;
 
@@ -92,8 +92,8 @@ class RBAuth extends Guard
      * @param bool $remember
      * @param bool $login
      * @return bool
-     * @throws \EdvinasKrucas\RBAuth\Exception\UserPasswordIncorrectException
-     * @throws \EdvinasKrucas\RBAuth\Exception\UserNotFoundException
+     * @throws \Krucas\RBAuth\Exception\UserPasswordIncorrectException
+     * @throws \Krucas\RBAuth\Exception\UserNotFoundException
      */
     public function attempt(array $credentials = array(), $remember = false, $login = true)
     {

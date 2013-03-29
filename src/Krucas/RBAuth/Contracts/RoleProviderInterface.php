@@ -1,4 +1,4 @@
-<?php namespace EdvinasKrucas\RBAuth\Contracts;
+<?php namespace Krucas\RBAuth\Contracts;
 
 interface RoleProviderInterface
 {
@@ -6,7 +6,7 @@ interface RoleProviderInterface
      * Returns role by its name.
      *
      * @param $roleName
-     * @return \EdvinasKrucas\RBAuth\Contracts\RoleInterface
+     * @return \Krucas\RBAuth\Contracts\RoleInterface
      */
     public function getByName($roleName);
 }

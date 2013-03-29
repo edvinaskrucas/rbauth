@@ -1,4 +1,4 @@
-<?php namespace EdvinasKrucas\RBAuth;
+<?php namespace Krucas\RBAuth;
 
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Support\ServiceProvider;
@@ -32,7 +32,7 @@ class RBAuthServiceProvider extends ServiceProvider
     /**
      * Creates new instance of defined role provider.
      *
-     * @return \EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface
+     * @return \Krucas\RBAuth\Contracts\RoleProviderInterface
      */
     protected function createRoleProvider()
     {

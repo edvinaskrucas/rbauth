@@ -1,7 +1,7 @@
-<?php namespace EdvinasKrucas\RBAuth\Implementations;
+<?php namespace Krucas\RBAuth\Implementations;
 
-use EdvinasKrucas\RBAuth\Contracts\RoleInterface;
-use EdvinasKrucas\RBAuth\Contracts\RoleProviderInterface;
+use Krucas\RBAuth\Contracts\RoleInterface;
+use Krucas\RBAuth\Contracts\RoleProviderInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model implements RoleInterface, RoleProviderInterface
@@ -39,7 +39,7 @@ class Role extends Model implements RoleInterface, RoleProviderInterface
      * Returns role by its name.
      *
      * @param $roleName
-     * @return \EdvinasKrucas\RBAuth\Contracts\RoleInterface
+     * @return \Krucas\RBAuth\Contracts\RoleInterface
      */
     public function getByName($roleName)
     {

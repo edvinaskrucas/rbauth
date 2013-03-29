@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-0": {
-            "EdvinasKrucas\\RBAuth": "src/"
+            "Krucas\\RBAuth": "src/"
         }
     },
     "minimum-stability": "dev"

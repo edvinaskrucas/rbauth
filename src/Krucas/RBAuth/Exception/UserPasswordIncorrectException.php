@@ -1,3 +1,3 @@
-<?php namespace EdvinasKrucas\RBAuth\Exception;
+<?php namespace Krucas\RBAuth\Exception;
 
 class UserPasswordIncorrectException extends \Exception {}

@@ -36,7 +36,7 @@ class RBAuthInit extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('permission_id');
+            $table->integer('permission_id')->unsigned()->index();
             $table->boolean('status')->default(1);
             $table->integer('accessible_id');
             $table->string('accessible_type', 255);
@@ -48,8 +48,8 @@ class RBAuthInit extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('role_id');
-            $table->integer('user_id');
+            $table->integer('role_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

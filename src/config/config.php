@@ -24,6 +24,16 @@ return array(
 
     /*
      |--------------------------------------------------------------------------
+     | Default permission provider.
+     |--------------------------------------------------------------------------
+     |
+     | Default permission provider implementation.
+     |
+     */
+    'permission_provider'   => 'EdvinasKrucas\RBAuth\Implementations\Eloquent\Permission',
+
+    /*
+     |--------------------------------------------------------------------------
      | Default role name
      |--------------------------------------------------------------------------
      |

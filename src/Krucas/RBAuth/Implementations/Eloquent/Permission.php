@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Krucas\RBAuth\Contracts\PermissionInterface;
+use Krucas\RBAuth\Contracts\PermissionProviderInterface;
 
-class Permission extends Model implements PermissionInterface
+class Permission extends Model implements PermissionInterface, PermissionProviderInterface
 {
     /**
      * Table to store permissions.
@@ -20,6 +21,17 @@ class Permission extends Model implements PermissionInterface
     public function getIdentifier()
     {
         return $this->permission;
+    }
+
+    /**
+     * Returns permission based on given identifier.
+     *
+     * @param $identifier
+     * @return \Krucas\RBAuth\Contracts\PermissionInterface|null
+     */
+    public function getByIdentifier($identifier)
+    {
+        return static::where('permission', $identifier)->first();
     }
 
 }

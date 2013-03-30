@@ -95,7 +95,7 @@ class RBAuthInit extends Migration
             'permission_id'         => 1,
             'status'                => 1,
             'accessible_id'         => 3,
-            'accessible_type'       => 'Krucas\RBAuth\Implementation\Eloquent\Role',
+            'accessible_type'       => 'Krucas\RBAuth\Implementations\Eloquent\Role',
             'created_at'    => new DateTime(),
             'updated_at'    => new DateTime()
         ));

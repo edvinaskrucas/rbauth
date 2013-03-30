@@ -18,7 +18,7 @@ Just place require new package for your laravel installation via composer.json
 
     "edvinaskrucas/rbauth": "dev-master"
 
-Then hit ```composer update```
+Then hit ```composer update``` after update you should migrate rbauth package by hitting ```php artisan migrate --package=edvinaskrucas/rbauth```
 
 ### Registering it in Laravel
 
@@ -101,6 +101,53 @@ Auth::addCheck('editTrip', function($trip)
 
     return false;
 });
+```
+
+Now you can use custom check call like that
+```php
+if(Auth::canEditTrip($trip))
+{
+    echo 'ok';
+}
+```
+
+### Route filters
+
+Package comes with couple route filters, one for simple check using ```can``` other for your custom checks ```customCan:canEditTrip```
+
+Simple example
+```php
+Route::get('test', array('before' => 'can:test', function()
+{
+    echo 'I can test!';
+}));
+```
+
+Now lets try using some our custom "can's"
+
+First we need to bind some models to our routing
+```php
+Route::bind('trip', function($value, $route)
+{
+    return Trip::find($value);
+})
+```
+
+Now we can access our trip objects from a route.
+```php
+Route::get('trips/edit/{trip}', array('before' => 'customCan:canEditTrip,trip', function($trip)
+{
+    echo 'I can edit this trip!';
+}));
+```
+
+So structure of custom route permission check is:
+```php
+customCan:canEditTrip,trip
+
+canEditTrip - is your custom check name, if you registered new check named "editTrip", you can access it "canEditTrip"
+
+trip - and other parameters are optional, this is usefull if you need to pass object to a custom check. In this case (route filter) trip will be resolved from Route object, thats why we need to bind it. When checking this in a controller or a view you can simply call it by "Auth::canEditTrip($trip)"
 ```
 
 ### Exceptions

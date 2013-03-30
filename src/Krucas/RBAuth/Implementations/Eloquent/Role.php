@@ -1,4 +1,4 @@
-<?php namespace Krucas\RBAuth\Implementations;
+<?php namespace Krucas\RBAuth\Implementations\Eloquent;
 
 use Krucas\RBAuth\Contracts\RoleInterface;
 use Krucas\RBAuth\Contracts\RoleProviderInterface;

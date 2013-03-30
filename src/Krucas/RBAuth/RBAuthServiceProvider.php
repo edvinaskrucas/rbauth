@@ -84,5 +84,38 @@ class RBAuthServiceProvider extends ServiceProvider
                 return $app['redirect']->to('/');
             }
         });
+
+        $this->app['router']->addFilter('customCan', function($route, $request, $permission, $arg0, $arg1, $arg2, $arg3, $arg4) use ($app)
+        {
+            if (!is_null($arg4))
+            {
+                $can = $app['auth']->$permission($route->getParameter($arg0), $route->getParameter($arg1), $route->getParameter($arg2), $route->getParameter($arg3), $route->getParameter($arg4));
+            }
+            elseif (!is_null($arg3))
+            {
+                $can = $app['auth']->permission($route->getParameter($arg0), $route->getParameter($arg1), $route->getParameter($arg2), $route->getParameter($arg3));
+            }
+            elseif (!is_null($arg2))
+            {
+                $can = $app['auth']->$permission($route->getParameter($arg0), $route->getParameter($arg1), $route->getParameter($arg2));
+            }
+            elseif (!is_null($arg1))
+            {
+                $can = $app['auth']->$permission($route->getParameter($arg0), $route->getParameter($arg1));
+            }
+            elseif (!is_null($arg0))
+            {
+                $can = $app['auth']->$permission($route->getParameter($arg0));
+            }
+            else
+            {
+                $can = $app['auth']->$permission();
+            }
+
+            if (!$can)
+            {
+                return $app['redirect']->to('/');
+            }
+        });
     }
 }

@@ -10,7 +10,7 @@ return array(
      | User provider interface implementation.
      |
      */
-    'user_model'            => 'User',
+    'user_model'            => 'Krucas\RBAuth\Implementations\Eloquent\User',
 
     /*
      |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ return array(
      | Default role provider implementation.
      |
      */
-    'role_provider'         => 'EdvinasKrucas\RBAuth\Implementations\Eloquent\Role',
+    'role_provider'         => 'Krucas\RBAuth\Implementations\Eloquent\Role',
 
     /*
      |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ return array(
      | Default permission provider implementation.
      |
      */
-    'permission_provider'   => 'EdvinasKrucas\RBAuth\Implementations\Eloquent\Permission',
+    'permission_provider'   => 'Krucas\RBAuth\Implementations\Eloquent\Permission',
 
     /*
      |--------------------------------------------------------------------------

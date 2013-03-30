@@ -15,6 +15,16 @@ class Role extends Model implements RoleInterface, RoleProviderInterface
     protected $table = 'roles';
 
     /**
+     * Returns all accessible permissions for a role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function access()
+    {
+        return $this->morphMany('Krucas\RBAuth\Implementations\Eloquent\Access', 'accessible');
+    }
+
+    /**
      * Determines if a role has access to given permission.
      *
      * @param $identifier

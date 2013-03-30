@@ -146,7 +146,8 @@ So structure of custom route permission check is:
 ```php
 customCan:canEditTrip,trip
 
-canEditTrip - is your custom check name, if you registered new check named "editTrip", you can access it "canEditTrip"
+canEditTrip - is your custom check name, if you registered new check named "editTrip",
+you can access it "canEditTrip"
 
 trip - and other parameters are optional, this is usefull if you need to pass object to a custom check.
 In this case (route filter) trip will be resolved from Route object, thats why we need to bind it.

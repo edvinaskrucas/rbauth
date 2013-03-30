@@ -24,16 +24,6 @@ return array(
 
     /*
      |--------------------------------------------------------------------------
-     | Default permission provider.
-     |--------------------------------------------------------------------------
-     |
-     | Default permission provider implementation.
-     |
-     */
-    'permission_provider'   => 'Krucas\RBAuth\Implementations\Eloquent\Permission',
-
-    /*
-     |--------------------------------------------------------------------------
      | Default role name
      |--------------------------------------------------------------------------
      |

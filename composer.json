@@ -15,6 +15,9 @@
         "illuminate/config": "4.0.x"
     },
     "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
         "psr-0": {
             "Krucas\\RBAuth": "src/"
         }

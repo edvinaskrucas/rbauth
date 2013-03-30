@@ -3,6 +3,7 @@
 use Krucas\RBAuth\Contracts\RoleInterface;
 use Krucas\RBAuth\Contracts\RoleProviderInterface;
 use Illuminate\Database\Eloquent\Model;
+use Krucas\RBAuth\Implementations\Eloquent\Permission;
 
 class Role extends Model implements RoleInterface, RoleProviderInterface
 {
@@ -21,8 +22,19 @@ class Role extends Model implements RoleInterface, RoleProviderInterface
      */
     public function can($identifier)
     {
-        // TODO: Implement can() method.
-        return true;
+        $permission = Permission::where('permission', $identifier)->first();
+
+        if ($permission)
+        {
+            $access = $this->access()->where('permission_id', $permission->id)->first();
+
+            if ($access)
+            {
+                return $access->isEnabled();
+            }
+        }
+
+        return false;
     }
 
     /**

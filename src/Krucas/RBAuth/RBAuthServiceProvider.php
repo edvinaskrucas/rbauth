@@ -17,6 +17,8 @@ class RBAuthServiceProvider extends ServiceProvider
         $this->package('edvinaskrucas/rbauth');
 
         $this->extendAuth();
+
+        $this->registerFilters();
     }
 
     /**
@@ -63,6 +65,24 @@ class RBAuthServiceProvider extends ServiceProvider
                 $roleProvider,
                 $app['config']
             );
+        });
+    }
+
+    /**
+     * Registers auth filters to use in routes.
+     *
+     * @return void
+     */
+    protected function registerFilters()
+    {
+        list($app) = array($this->app);
+
+        $this->app['router']->addFilter('can', function($route, $request, $value) use ($app)
+        {
+            if (!$app['auth']->can($value))
+            {
+                return $app['redirect']->to('/');
+            }
         });
     }
 }

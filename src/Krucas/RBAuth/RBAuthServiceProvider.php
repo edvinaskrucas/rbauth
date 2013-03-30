@@ -85,7 +85,7 @@ class RBAuthServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app['router']->addFilter('customCan', function($route, $request, $permission, $arg0, $arg1, $arg2, $arg3, $arg4) use ($app)
+        $this->app['router']->addFilter('customCan', function($route, $request, $permission, $arg0 = null, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null) use ($app)
         {
             if (!is_null($arg4))
             {

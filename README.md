@@ -148,7 +148,9 @@ customCan:canEditTrip,trip
 
 canEditTrip - is your custom check name, if you registered new check named "editTrip", you can access it "canEditTrip"
 
-trip - and other parameters are optional, this is usefull if you need to pass object to a custom check. In this case (route filter) trip will be resolved from Route object, thats why we need to bind it. When checking this in a controller or a view you can simply call it by "Auth::canEditTrip($trip)"
+trip - and other parameters are optional, this is usefull if you need to pass object to a custom check.
+In this case (route filter) trip will be resolved from Route object, thats why we need to bind it.
+When checking this in a controller or a view you can simply call it by "Auth::canEditTrip($trip)"
 ```
 
 ### Exceptions

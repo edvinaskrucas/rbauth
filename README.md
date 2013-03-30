@@ -143,7 +143,7 @@ Route::get('trips/edit/{trip}', array('before' => 'customCan:canEditTrip,trip', 
 
 So structure of custom route permission check is:
 
-```
+```php
 customCan:canEditTrip,trip
 
 canEditTrip - is your custom check name, if you registered new check named "editTrip", you can access it "canEditTrip"

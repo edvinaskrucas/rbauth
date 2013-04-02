@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Krucas\RBAuth\Contracts\UserInterface;
+use Krucas\RBAuth\Implementations\Eloquent\Exceptions\AccessNotFoundException;
 
 class User extends Model implements UserInterface
 {
@@ -40,9 +41,13 @@ class User extends Model implements UserInterface
     {
         foreach ($this->getRoles() as $role)
         {
-            if ($role->can($identifier))
+            try
             {
-                return true;
+                return $role->can($identifier);
+            }
+            catch (AccessNotFoundException $ex)
+            {
+                // Handle this as you want.
             }
         }
 

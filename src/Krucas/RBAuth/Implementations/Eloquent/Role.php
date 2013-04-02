@@ -3,6 +3,8 @@
 use Krucas\RBAuth\Contracts\RoleInterface;
 use Krucas\RBAuth\Contracts\RoleProviderInterface;
 use Illuminate\Database\Eloquent\Model;
+use Krucas\RBAuth\Implementations\Eloquent\Exceptions\AccessNotFoundException;
+use Krucas\RBAuth\Implementations\Eloquent\Exceptions\PermissionNotFoundException;
 use Krucas\RBAuth\Implementations\Eloquent\Permission;
 
 class Role extends Model implements RoleInterface, RoleProviderInterface
@@ -29,6 +31,7 @@ class Role extends Model implements RoleInterface, RoleProviderInterface
      *
      * @param $identifier
      * @return bool
+     * @throws \Krucas\RBAuth\Implementations\Eloquent\Exceptions\AccessNotFoundException
      */
     public function can($identifier)
     {
@@ -38,7 +41,11 @@ class Role extends Model implements RoleInterface, RoleProviderInterface
         {
             $access = $this->access()->where('permission_id', $permission->id)->first();
 
-            if ($access)
+            if (!$access)
+            {
+                throw new AccessNotFoundException();
+            }
+            else
             {
                 return $access->isEnabled();
             }

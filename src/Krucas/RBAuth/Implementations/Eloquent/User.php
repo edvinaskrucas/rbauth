@@ -26,7 +26,8 @@ class User extends Model implements UserInterface
      */
     public function roles()
     {
-        return $this->belongsToMany('Krucas\RBAuth\Implementations\Eloquent\Role', 'users_roles', 'user_id', 'role_id');
+        return $this->belongsToMany('Krucas\RBAuth\Implementations\Eloquent\Role', 'users_roles', 'user_id', 'role_id')
+            ->orderBy('priority', 'ASC');
     }
 
     /**

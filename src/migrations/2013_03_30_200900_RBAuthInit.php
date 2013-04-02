@@ -21,6 +21,7 @@ class RBAuthInit extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('role', 100)->unique();
+            $table->tinyInteger('priority');
             $table->timestamps();
         });
 
@@ -70,17 +71,20 @@ class RBAuthInit extends Migration
     protected function seed()
     {
         DB::table('roles')->insert(array(
-            'role'          => 'guest',
+            'role'      => 'admin',
+            'priority'      => 0,
             'created_at'    => new DateTime(),
             'updated_at'    => new DateTime()
         ));
         DB::table('roles')->insert(array(
             'role'      => 'user',
+            'priority'      => 1,
             'created_at'    => new DateTime(),
             'updated_at'    => new DateTime()
         ));
         DB::table('roles')->insert(array(
-            'role'      => 'admin',
+            'role'          => 'guest',
+            'priority'      => 2,
             'created_at'    => new DateTime(),
             'updated_at'    => new DateTime()
         ));

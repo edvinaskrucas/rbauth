@@ -32,6 +32,16 @@ class User extends Model implements UserInterface
     }
 
     /**
+     * Returns all accessible permissions for a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function access()
+    {
+        return $this->morphMany('Krucas\RBAuth\Implementations\Eloquent\Access', 'accessible');
+    }
+
+    /**
      * Determines if a user has access to given permission.
      *
      * @param $identifier
@@ -39,6 +49,18 @@ class User extends Model implements UserInterface
      */
     public function can($identifier)
     {
+        $permission = Permission::where('permission', $identifier)->first();
+
+        if ($permission)
+        {
+            $access = $this->access()->where('permission_id', $permission->id)->first();
+
+            if ($access)
+            {
+                return $access->isEnabled();
+            }
+        }
+
         foreach ($this->getRoles() as $role)
         {
             try

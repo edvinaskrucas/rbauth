@@ -180,10 +180,6 @@ class RBAuth extends Guard
         {
             return $callback($arg0, $arg1, $arg2);
         }
-        elseif(!is_null($arg2))
-        {
-            return $callback($arg0, $arg1, $arg2);
-        }
         elseif(!is_null($arg1))
         {
             return $callback($arg0, $arg1);

@@ -88,7 +88,7 @@ This example shows how to check compound permissions.
 For example you have two permissions for editing a trip: ```trips.edit.all``` and ```trips.edit.own```, you can use double check on a certain trip by using simple calls, or you just can use this example below.
 
 ```php
-Auth::addCheck('editTrip', function($trip)
+Auth::rule('trips.edit', function($trip)
 {
     if(Auth::can('trips.edit.all'))
     {
@@ -103,9 +103,9 @@ Auth::addCheck('editTrip', function($trip)
 });
 ```
 
-Now you can use custom check call like that
+Now you can simply call method ```can``` with a new rule
 ```php
-if(Auth::canEditTrip($trip))
+if(Auth::can('trips.edit', $trip))
 {
     echo 'ok';
 }
@@ -135,7 +135,7 @@ Route::bind('trip', function($value, $route)
 
 Now we can access our trip objects from a route.
 ```php
-Route::get('trips/edit/{trip}', array('before' => 'customCan:canEditTrip,trip', function($trip)
+Route::get('trips/edit/{trip}', array('before' => 'can:trips.edit,trip', function($trip)
 {
     echo 'I can edit this trip!';
 }));
@@ -144,14 +144,13 @@ Route::get('trips/edit/{trip}', array('before' => 'customCan:canEditTrip,trip', 
 So structure of custom route permission check is:
 
 ```php
-customCan:canEditTrip,trip
+cam:trips.edit,trip
 
-canEditTrip - is your custom check name, if you registered new check named "editTrip",
-you can access it "canEditTrip"
+trips.edit - your rule name
 
 trip - and other parameters are optional, this is usefull if you need to pass object to a custom check.
 In this case (route filter) trip will be resolved from Route object, thats why we need to bind it.
-When checking this in a controller or a view you can simply call it by "Auth::canEditTrip($trip)"
+When checking this in a controller or a view you can simply call it by "Auth::can('trips.edit', $trip)"
 ```
 
 ### Exceptions

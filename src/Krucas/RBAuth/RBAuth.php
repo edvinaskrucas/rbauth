@@ -27,11 +27,11 @@ class RBAuth extends Guard
     protected $config;
 
     /**
-     * User registered custom checks.
+     * User registered/overridden rules.
      *
      * @var array
      */
-    protected $customChecks = array();
+    protected $rules = array();
 
     /**
      * @param UserProviderInterface $provider
@@ -54,9 +54,14 @@ class RBAuth extends Guard
      * If user is not logged then checks for role permission.
      *
      * @param $identifier
+     * @param null $arg0
+     * @param null $arg1
+     * @param null $arg2
+     * @param null $arg3
+     * @param null $arg4
      * @return bool
      */
-    public function can($identifier)
+    public function can($identifier, $arg0 = null, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null)
     {
         if(!is_null($this->user()))
         {
@@ -64,6 +69,12 @@ class RBAuth extends Guard
             {
                 return true;
             }
+
+            if(isset($this->rules[$identifier]))
+            {
+                return $this->callCallback($identifier, $arg0, $arg1, $arg2, $arg3, $arg4);
+            }
+
             return $this->user()->can($identifier);
         }
         else
@@ -132,41 +143,56 @@ class RBAuth extends Guard
     }
 
     /**
-     * Adds custom checker.
+     * Adds new rule for a closure check.
      *
-     * @param $alias
+     * @param $permission
      * @param callable $callback
      */
-    public function addCheck($alias, Closure $callback)
+    public function rule($permission, Closure $callback)
     {
-        $this->customChecks['can'.ucfirst($alias)] = $callback;
+        $this->rules[$permission] = $callback;
     }
 
     /**
-     * Tries to call custom check.
+     * Calls a custom registered rule.
      *
-     * @param $name
-     * @param $args
-     * @return mixed
+     * @param $identifier
+     * @param null $arg0
+     * @param null $arg1
+     * @param null $arg2
+     * @param null $arg3
+     * @param null $arg4
+     * @return bool
      */
-    public function __call($name, $args)
+    protected function callCallback($identifier, $arg0 = null, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null)
     {
-        if(strlen($name) > 3 && substr($name, 0, 3) == 'can')
-        {
-            if(isset($this->customChecks[$name]))
-            {
-                switch(count($args))
-                {
-                    case 0: return call_user_func($this->customChecks[$name]);
-                    case 1: return call_user_func($this->customChecks[$name], $args[0]);
-                    case 2: return call_user_func($this->customChecks[$name], $args[0], $args[1]);
-                    case 3: return call_user_func($this->customChecks[$name], $args[0], $args[1], $args[2]);
-                    case 4: return call_user_func($this->customChecks[$name], $args[0], $args[1], $args[2], $args[3]);
-                    case 5: return call_user_func($this->customChecks[$name], $args[0], $args[1], $args[2], $args[3], $args[4]);
-                }
+        $callback = $this->rules[$identifier];
 
-                return call_user_func($this->customChecks[$name], $args);
-            }
+        if(!is_null($arg4))
+        {
+            return $callback($arg0, $arg1, $arg2, $arg3, $arg4);
         }
+        elseif(!is_null($arg3))
+        {
+            return $callback($arg0, $arg1, $arg2, $arg3);
+        }
+        elseif(!is_null($arg2))
+        {
+            return $callback($arg0, $arg1, $arg2);
+        }
+        elseif(!is_null($arg2))
+        {
+            return $callback($arg0, $arg1, $arg2);
+        }
+        elseif(!is_null($arg1))
+        {
+            return $callback($arg0, $arg1);
+        }
+        elseif(!is_null($arg0))
+        {
+            return $callback($arg0);
+        }
+
+        return false;
     }
 }

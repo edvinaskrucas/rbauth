@@ -77,30 +77,28 @@ class RBAuth extends Guard
      */
     public function can($identifier, $arg0 = null, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null)
     {
+        $ignoreSuper = $this->ignoreSuper;
+        $this->ignoreSuper = false;
+
+        $ignoreCallback = $this->ignoreCallback;
+        $this->ignoreCallback = false;
+
         if(!is_null($this->user()))
         {
-            if(!$this->ignoreSuper)
+            if(!$ignoreSuper)
             {
                 if($this->user()->can($this->config->get('rbauth::super_permission')))
                 {
                     return true;
                 }
             }
-            else
-            {
-                $this->ignoreSuper = false;
-            }
 
-            if(!$this->ignoreCallback)
+            if(!$ignoreCallback)
             {
                 if(isset($this->rules[$identifier]))
                 {
                     return $this->callCallback($identifier, $arg0, $arg1, $arg2, $arg3, $arg4);
                 }
-            }
-            else
-            {
-                $this->ignoreCallback = false;
             }
 
             return $this->user()->can($identifier);

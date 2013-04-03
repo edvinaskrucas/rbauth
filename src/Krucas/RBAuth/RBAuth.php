@@ -34,6 +34,13 @@ class RBAuth extends Guard
     protected $rules = array();
 
     /**
+     * Ignore callback when calling Auth::can().
+     *
+     * @var bool
+     */
+    protected $ignoreCallback = false;
+
+    /**
      * @param UserProviderInterface $provider
      * @param SessionStore $session
      * @param RoleProviderInterface $roleProvider
@@ -70,9 +77,14 @@ class RBAuth extends Guard
                 return true;
             }
 
-            if(isset($this->rules[$identifier]))
+            if(!$this->ignoreCallback)
             {
-                return $this->callCallback($identifier, $arg0, $arg1, $arg2, $arg3, $arg4);
+                $this->ignoreCallback = false;
+
+                if(isset($this->rules[$identifier]))
+                {
+                    return $this->callCallback($identifier, $arg0, $arg1, $arg2, $arg3, $arg4);
+                }
             }
 
             return $this->user()->can($identifier);
@@ -151,6 +163,18 @@ class RBAuth extends Guard
     public function rule($permission, Closure $callback)
     {
         $this->rules[$permission] = $callback;
+    }
+
+    /**
+     * Sets ignoreCallback to true for a next Auth::can() call.
+     *
+     * @return \Krucas\RBAuth\RBAuth
+     */
+    public function ignoreCallback()
+    {
+        $this->ignoreCallback = true;
+
+        return $this;
     }
 
     /**

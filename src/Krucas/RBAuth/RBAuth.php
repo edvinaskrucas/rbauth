@@ -161,7 +161,7 @@ class RBAuth extends Guard
 
         foreach($args as $arg)
         {
-            $resolved[] = $route->getPrarameter($arg);
+            $resolved[] = $route->getParameter($arg);
         }
 
         return $resolved;

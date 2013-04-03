@@ -48,6 +48,13 @@ class RBAuth extends Guard
     protected $ignoreSuper = false;
 
     /**
+     * Route for param resolving.
+     *
+     * @var null
+     */
+    protected $route = null;
+
+    /**
      * @param UserProviderInterface $provider
      * @param SessionStore $session
      * @param RoleProviderInterface $roleProvider
@@ -97,6 +104,18 @@ class RBAuth extends Guard
             {
                 if(isset($this->rules[$identifier]))
                 {
+                    if(!is_null($this->route))
+                    {
+                        $resolved = $this->resolveFromRoute($this->route, array($arg0, $arg1, $arg2, $arg3, $arg4));
+
+                        foreach($resolved as $key => $value)
+                        {
+                            ${'arg'.$key} = $value;
+                        }
+
+                        $this->route = null;
+                    }
+
                     return $this->callCallback($identifier, $arg0, $arg1, $arg2, $arg3, $arg4);
                 }
             }
@@ -114,6 +133,38 @@ class RBAuth extends Guard
         }
 
         return false;
+    }
+
+    /**
+     * Sets route for param resolving.
+     *
+     * @param $route
+     * @return \Krucas\RBAuth\RBAuth
+     */
+    public function fromRoute($route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Resolves params from a route.
+     *
+     * @param $route
+     * @param array $args
+     * @return array
+     */
+    protected function resolveFromRoute($route, array $args = array())
+    {
+        $resolved = array();
+
+        foreach($args as $arg)
+        {
+            $resolved[] = $route->getPrarameter($arg);
+        }
+
+        return $resolved;
     }
 
     /**

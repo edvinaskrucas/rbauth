@@ -77,9 +77,9 @@ class RBAuthServiceProvider extends ServiceProvider
     {
         list($app) = array($this->app);
 
-        $this->app['router']->addFilter('can', function($route, $request, $value) use ($app)
+        $this->app['router']->addFilter('can', function($route, $request, $value, $arg0 = null, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null) use ($app)
         {
-            if (!$app['auth']->can($value))
+            if (!$app['auth']->fromRoute($route)->can($value, $arg0, $arg1, $arg2, $arg3, $arg4))
             {
                 return $app['redirect']->to('/');
             }

@@ -41,6 +41,13 @@ class RBAuth extends Guard
     protected $ignoreCallback = false;
 
     /**
+     * Ignores super permission check.
+     *
+     * @var bool
+     */
+    protected $ignoreSuper = false;
+
+    /**
      * @param UserProviderInterface $provider
      * @param SessionStore $session
      * @param RoleProviderInterface $roleProvider
@@ -72,9 +79,14 @@ class RBAuth extends Guard
     {
         if(!is_null($this->user()))
         {
-            if($this->user()->can($this->config->get('rbauth::super_permission')))
+            if(!$this->ignoreSuper)
             {
-                return true;
+                $this->ignoreSuper = false;
+
+                if($this->user()->can($this->config->get('rbauth::super_permission')))
+                {
+                    return true;
+                }
             }
 
             if(!$this->ignoreCallback)
@@ -173,6 +185,18 @@ class RBAuth extends Guard
     public function ignoreCallback()
     {
         $this->ignoreCallback = true;
+
+        return $this;
+    }
+
+    /**
+     * Sets ignoreSuper to true for next Auth::can() call.
+     *
+     * @return \Krucas\RBAuth\RBAuth
+     */
+    public function ignoreSuper()
+    {
+        $this->ignoreSuper = true;
 
         return $this;
     }

@@ -170,23 +170,27 @@ class RBAuth extends Guard
 
         if(!is_null($arg4))
         {
-            return $callback($arg0, $arg1, $arg2, $arg3, $arg4);
+            return call_user_func($callback, $arg0, $arg1, $arg2, $arg3, $arg4);
         }
         elseif(!is_null($arg3))
         {
-            return $callback($arg0, $arg1, $arg2, $arg3);
+            return call_user_func($callback, $arg0, $arg1, $arg2, $arg3);
         }
         elseif(!is_null($arg2))
         {
-            return $callback($arg0, $arg1, $arg2);
+            return call_user_func($callback, $arg0, $arg1, $arg2);
         }
         elseif(!is_null($arg1))
         {
-            return $callback($arg0, $arg1);
+            return call_user_func($callback, $arg0, $arg1);
         }
         elseif(!is_null($arg0))
         {
-            return $callback($arg0);
+            return call_user_func($callback, $arg0);
+        }
+        else
+        {
+            return call_user_func($callback);
         }
 
         return false;

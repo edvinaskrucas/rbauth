@@ -192,6 +192,16 @@ class RBAuth extends Guard
     }
 
     /**
+     * Determines if a callback is ignored or not.
+     *
+     * @return bool
+     */
+    public function isCallbackIgnored()
+    {
+        return $this->callCallback ? true : false;
+    }
+
+    /**
      * Sets ignoreSuper to true for next Auth::can() call.
      *
      * @return \Krucas\RBAuth\RBAuth
@@ -201,6 +211,26 @@ class RBAuth extends Guard
         $this->ignoreSuper = true;
 
         return $this;
+    }
+
+    /**
+     * Determines if a super rule is ignored or not.
+     *
+     * @return bool
+     */
+    public function isSuperIgnored()
+    {
+        return $this->ignoreSuper ? true : false;
+    }
+
+    /**
+     * Returns all registered callbacks.
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
     }
 
     /**

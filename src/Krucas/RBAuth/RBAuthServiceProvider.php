@@ -85,12 +85,12 @@ class RBAuthServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app['router']->addFilter('authIgnoreSuper', function($route, $request, $value) use ($app)
+        $this->app['router']->addFilter('authIgnoreSuper', function($route, $request) use ($app)
         {
             $app['auth']->ignoreSuper();
         });
 
-        $this->app['router']->addFilter('authIgnoreCallback', function($route, $request, $value) use ($app)
+        $this->app['router']->addFilter('authIgnoreCallback', function($route, $request) use ($app)
         {
             $app['auth']->ignoreCallback();
         });

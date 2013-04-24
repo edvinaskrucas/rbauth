@@ -97,6 +97,16 @@ class User extends Model implements UserInterface
     }
 
     /**
+     * Determines if a user is active or not.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active ? true : false;
+    }
+
+    /**
      * Determines if a user is assigned to a given role.
      *
      * @param $roleName

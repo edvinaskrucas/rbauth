@@ -13,6 +13,7 @@ class RBAuthInit extends Migration
             $table->increments('id');
             $table->string('email', 255)->unique();
             $table->string('password', 255);
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
 
@@ -107,6 +108,7 @@ class RBAuthInit extends Migration
         DB::table('users')->insert(array(
             'email'         => 'admin@admin.com',
             'password'      => Hash::make('admin'),
+            'active'        => true,
             'created_at'    => new DateTime(),
             'updated_at'    => new DateTime()
         ));

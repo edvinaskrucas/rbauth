@@ -9,6 +9,7 @@ A simple Role/Permission based auth package for Laravel4
 * Roles
 * Permissions
 * Exceptions
+* Route filters
 
 ---
 
@@ -52,7 +53,13 @@ $input = Input::all();
 
 try
 {
-    Auth::attempt(array('email' => $input['email'], 'password' => $input['password']), isset($input['reminder']));
+    Auth::attempt(
+        array(
+            'email' => $input['email'],
+            'password' => $input['password']
+        ),
+        isset($input['reminder'])
+    );
     return Redirect::back(); // All is ok
 }
 catch(UserNotFoundException $e)
@@ -159,3 +166,9 @@ This auth extension throws two exceptions when you are trying to login:
 
 ```\Krucas\RBAuth\UserNotFoundException``` - thrown when you are trying to login with non existing user.
 ```\Krucas\RBAuth\PasswordIncorrectException``` - thrown when password for user is incorrect.
+
+### Default implementation features
+
+* Users can be assigned to multiple roles
+* Roles can have assigned accesses (permission with status enabled / disabled)
+* Users can have assigned accesses (permission with status enabled / disabled)

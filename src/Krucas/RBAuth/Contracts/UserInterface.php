@@ -13,6 +13,13 @@ interface UserInterface extends AuthUserInterface
     public function can($identifier);
 
     /**
+     * Determines if a user is active or not.
+     *
+     * @return bool
+     */
+    public function isActive();
+
+    /**
      * Determines if a user is assigned to a given role.
      *
      * @param $roleName

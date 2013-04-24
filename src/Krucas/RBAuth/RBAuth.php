@@ -1,5 +1,6 @@
 <?php namespace Krucas\RBAuth;
 
+use Krucas\RBAuth\Exception\UserInactiveException;
 use Krucas\RBAuth\Exception\UserNotFoundException;
 use Krucas\RBAuth\Exception\UserPasswordIncorrectException;
 use Illuminate\Auth\Guard;
@@ -190,6 +191,7 @@ class RBAuth extends Guard
      * @return bool
      * @throws \Krucas\RBAuth\Exception\UserPasswordIncorrectException
      * @throws \Krucas\RBAuth\Exception\UserNotFoundException
+     * @throws \Krucas\RBAuth\Exception\UserInactiveException
      */
     public function attempt(array $credentials = array(), $remember = false, $login = true)
     {
@@ -202,9 +204,16 @@ class RBAuth extends Guard
         {
             if ($this->provider->validateCredentials($user, $credentials))
             {
-                if ($login) $this->login($user, $remember);
+                if ($user->isActive())
+                {
+                    if ($login) $this->login($user, $remember);
 
-                return true;
+                    return true;
+                }
+                else
+                {
+                    throw new UserInactiveException();
+                }
             }
             else
             {

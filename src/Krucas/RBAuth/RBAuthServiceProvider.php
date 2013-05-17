@@ -77,7 +77,7 @@ class RBAuthServiceProvider extends ServiceProvider
     {
         list($app) = array($this->app);
 
-        $this->app['router']->addFilter('can', function($route, $request, $value, $arg0 = null, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null) use ($app)
+        $this->app['router']->filter('can', function($route, $request, $value, $arg0 = null, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null) use ($app)
         {
             if (!$app['auth']->fromRoute($route)->can($value, $arg0, $arg1, $arg2, $arg3, $arg4))
             {
@@ -85,12 +85,12 @@ class RBAuthServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app['router']->addFilter('authIgnoreSuper', function($route, $request) use ($app)
+        $this->app['router']->filter('authIgnoreSuper', function($route, $request) use ($app)
         {
             $app['auth']->ignoreSuper();
         });
 
-        $this->app['router']->addFilter('authIgnoreCallback', function($route, $request) use ($app)
+        $this->app['router']->filter('authIgnoreCallback', function($route, $request) use ($app)
         {
             $app['auth']->ignoreCallback();
         });
